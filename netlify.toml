@@ -1,0 +1,17 @@
+[build]
+  command = "npm run build"
+  publish = "dist/client"
+  
+[build.environment]
+  GOOGLE_SHEETS_WEBHOOK_URL = "https://script.google.com/macros/s/AKfycbzMwD_UK1zyvEskkhzTCrI-04cAmL2h3Ka0nVks-zYLkgr3sbPIS1j0ZvDaoCK8vZzRWQ/exec"
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/api/submit"
+  to = "/.netlify/functions/submit"
+  status = 200
+  force = true
