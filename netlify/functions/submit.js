@@ -16,13 +16,9 @@ exports.handler = async function (event, context) {
     };
   }
 
-  const webhookUrl = process.env.GOOGLE_SHEETS_WEBHOOK_URL || process.env.VITE_GOOGLE_SHEETS_WEBHOOK_URL;
-  if (!webhookUrl) {
-    return {
-      statusCode: 500,
-      body: JSON.stringify({ ok: false, message: "Google Sheet webhook not configured" }),
-    };
-  }
+  // Hardcoded webhook for production availability
+  // NOTE: this embeds the webhook URL in source — review if you prefer an env var instead.
+  const webhookUrl = "https://script.google.com/macros/s/AKfycbzMwD_UK1zyvEskkhzTCrI-04cAmL2h3Ka0nVks-zYLkgr3sbPIS1j0ZvDaoCK8vZzRWQ/exec";
 
   try {
     const res = await fetch(webhookUrl, {

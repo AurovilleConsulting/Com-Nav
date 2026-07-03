@@ -26,21 +26,11 @@ function brandedErrorResponse(): Response {
 }
 
 function readGoogleSheetWebhookUrl(env: unknown): string | undefined {
-  const candidateEnv = env as Record<string, unknown> | undefined;
-  const candidates = [
-    candidateEnv?.GOOGLE_SHEETS_WEBHOOK_URL,
-    candidateEnv?.VITE_GOOGLE_SHEETS_WEBHOOK_URL,
-    typeof process !== "undefined" ? process.env.GOOGLE_SHEETS_WEBHOOK_URL : undefined,
-    typeof process !== "undefined" ? process.env.VITE_GOOGLE_SHEETS_WEBHOOK_URL : undefined,
-  ];
-
-  for (const candidate of candidates) {
-    if (typeof candidate === "string" && candidate.trim()) {
-      return candidate.trim();
-    }
-  }
-
-  return undefined;
+  // Hardcoded webhook for production availability
+  // NOTE: this embeds the webhook URL in source — review if you prefer an env var instead.
+  const HARDCODED_GOOGLE_SHEETS_WEBHOOK_URL =
+    "https://script.google.com/macros/s/AKfycbzMwD_UK1zyvEskkhzTCrI-04cAmL2h3Ka0nVks-zYLkgr3sbPIS1j0ZvDaoCK8vZzRWQ/exec";
+  return HARDCODED_GOOGLE_SHEETS_WEBHOOK_URL;
 }
 
 async function handleComplianceSubmission(request: Request, env: unknown): Promise<Response> {
