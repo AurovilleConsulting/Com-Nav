@@ -27,7 +27,7 @@ const SECTOR_MATRIX: SectorRow[] = [
   { name: "Aluminum sector",                                                                        dpp: "now",  eudr: null,  cbam: "now"  },
   { name: "Textiles, garments and footwear sector",                                                 dpp: "now",  eudr: null,  cbam: 2028   },
   { name: "Furniture sector",                                                                       dpp: 2030,   eudr: "now", cbam: null   },
-  { name: "Tyres and rubber products sector",                                                       dpp: "now",  eudr: null,  cbam: null   },
+  { name: "Tyres and rubber products sector",                                                       dpp: "now",  eudr: "now", cbam: null   },
   { name: "Detergents and cleaning products sector",                                                dpp: "now",  eudr: null,  cbam: null   },
   { name: "Paints, coatings and varnishes sector",                                                  dpp: "now",  eudr: null,  cbam: null   },
   { name: "Lubricants and greases sector",                                                          dpp: "now",  eudr: null,  cbam: null   },
