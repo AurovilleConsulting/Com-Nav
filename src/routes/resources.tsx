@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { AppHeader } from "@/components/AppHeader";
 import { Button } from "@/components/ui/button";
-import { Download, Play, FileText, HelpCircle, BookOpen, Mail } from "lucide-react";
+import { Download, Play, FileText, HelpCircle, BookOpen, Mail, ExternalLink } from "lucide-react";
 
 export const Route = createFileRoute("/resources")({
   head: () => ({
@@ -14,11 +14,31 @@ export const Route = createFileRoute("/resources")({
 });
 
 type Reg = "CBAM" | "DPP" | "DR";
+type DocTypeKey = "intro" | "faq" | "factsheet";
 
 const REG_STYLES: Record<Reg, { var: string; soft: string; label: string }> = {
   CBAM: { var: "var(--cbam)", soft: "var(--cbam-soft)", label: "CBAM" },
   DPP: { var: "var(--dpp)", soft: "var(--dpp-soft)", label: "DPP" },
   DR: { var: "var(--eudr)", soft: "var(--eudr-soft)", label: "DR" },
+};
+
+/* File mapping pointing to public folder path */
+const PDF_FILES: Record<Reg, Record<DocTypeKey, string>> = {
+  CBAM: {
+    intro: "/assets/pdfs/eu-cbam/260713-Brochure-CBAM-plain.pdf",
+    faq: "/assets/pdfs/eu-cbam/260713-FAQ-CBAM-plain.pdf",
+    factsheet: "/assets/pdfs/eu-cbam/260713-Fact-Sheet-CBAM-plain.pdf",
+  },
+  DPP: {
+    intro: "/assets/pdfs/dpp/2607134-Brochure-DPP-plain.pdf",
+    faq: "/assets/pdfs/dpp/260714-FAQ-DPP-plain.pdf",
+    factsheet: "/assets/pdfs/dpp/260714-Fact-Sheet-DPP-plain.pdf",
+  },
+  DR: {
+    intro: "/assets/pdfs/eu-dr/260713-EUDR-Brochure-plain.pdf",
+    faq: "/assets/pdfs/eu-dr/260713-EUDR-FAQ-plain.pdf",
+    factsheet: "/assets/pdfs/eu-dr/260713-Fact-Sheet-EUDR-plain.pdf",
+  },
 };
 
 const VIDEOS: { tag: Reg; title: string; desc: string; duration: string }[] = [
@@ -30,11 +50,11 @@ const VIDEOS: { tag: Reg; title: string; desc: string; duration: string }[] = [
   { tag: "DR", title: "Geolocation & due diligence", desc: "Traceability requirements for in-scope commodities.", duration: "6:05" },
 ];
 
-const DOC_TYPES = [
+const DOC_TYPES: { key: DocTypeKey; title: string; desc: string; icon: typeof BookOpen }[] = [
   { key: "intro", title: "Introduction", desc: "A plain-language overview of the regulation.", icon: BookOpen },
   { key: "faq", title: "FAQ", desc: "Answers to the most common questions.", icon: HelpCircle },
   { key: "factsheet", title: "Fact Sheet", desc: "Key facts, dates, and obligations at a glance.", icon: FileText },
-] as const;
+];
 
 function RegTag({ reg }: { reg: Reg }) {
   const s = REG_STYLES[reg];
@@ -91,6 +111,8 @@ function VideoCard({ v }: { v: (typeof VIDEOS)[number] }) {
 function PdfCard({ reg, type }: { reg: Reg; type: (typeof DOC_TYPES)[number] }) {
   const s = REG_STYLES[reg];
   const Icon = type.icon;
+  const pdfUrl = PDF_FILES[reg][type.key];
+
   return (
     <div
       className="rounded-2xl border bg-card p-5 sm:p-6 flex flex-col h-full shadow-card hover:shadow-elevated hover:-translate-y-0.5 transition-all"
@@ -111,11 +133,20 @@ function PdfCard({ reg, type }: { reg: Reg; type: (typeof DOC_TYPES)[number] }) 
         </div>
       </div>
       <p className="text-sm text-muted-foreground mt-3 flex-1 leading-relaxed">{type.desc}</p>
-      <Button asChild className="mt-5 w-full h-11" style={{ background: "var(--resources-green)", color: "white" }}>
-        <a href="#" download>
-          <Download className="w-4 h-4" /> Download PDF
-        </a>
-      </Button>
+      
+      {/* Actions */}
+      <div className="mt-5 flex gap-2">
+        <Button asChild variant="outline" className="flex-1 h-10 text-xs font-semibold">
+          <a href={pdfUrl} target="_blank" rel="noopener noreferrer">
+            <ExternalLink className="w-3.5 h-3.5 mr-1" /> View
+          </a>
+        </Button>
+        <Button asChild className="flex-1 h-10 text-xs font-semibold" style={{ background: "var(--resources-green)", color: "white" }}>
+          <a href={pdfUrl} download>
+            <Download className="w-3.5 h-3.5 mr-1" /> Download
+          </a>
+        </Button>
+      </div>
     </div>
   );
 }
@@ -146,7 +177,7 @@ function ResourceGroup({ reg }: { reg: Reg }) {
   );
 }
 
-function ResourcesPage() {
+export function ResourcesPage() {
   return (
     <div className="min-h-dvh bg-background">
       <style>{`:root { --resources-green: oklch(0.6 0.15 155); --resources-soft: oklch(0.97 0.03 155); }`}</style>
@@ -245,3 +276,4 @@ function ResourcesPage() {
     </div>
   );
 }
+export default ResourcesPage;
