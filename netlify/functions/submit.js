@@ -9,6 +9,9 @@ exports.handler = async function (event, context) {
   let body;
   try {
     body = event.body ? JSON.parse(event.body) : {};
+    if (typeof body.companyName === "string" && !body.company) body.company = body.companyName;
+    if (typeof body.company === "string" && !body.companyName) body.companyName = body.company;
+    if (typeof body.pincode !== "string") body.pincode = "";
   } catch (err) {
     return {
       statusCode: 400,
@@ -18,7 +21,7 @@ exports.handler = async function (event, context) {
 
   // Hardcoded webhook for production availability
   // NOTE: this embeds the webhook URL in source — review if you prefer an env var instead.
-  const webhookUrl = "https://script.google.com/macros/s/AKfycbzMwD_UK1zyvEskkhzTCrI-04cAmL2h3Ka0nVks-zYLkgr3sbPIS1j0ZvDaoCK8vZzRWQ/exec";
+  const webhookUrl = "https://script.google.com/macros/s/AKfycbxI2V3ZPfxDjTMZj1AvCALb_5ekxUEWGd0N2NfGd4GtR6Rnax-UfH-2zjGrrytLJhnb7w/exec";
 
   try {
     const res = await fetch(webhookUrl, {
