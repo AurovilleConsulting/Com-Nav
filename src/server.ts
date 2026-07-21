@@ -63,11 +63,20 @@ function readEnvValue(env: unknown, key: string): string | undefined {
 }
 
 function readBrevoConfig(env: unknown): { config: BrevoConfig | null; missingKeys: string[] } {
-  const apiKey = readEnvValue(env, "BREVO_API_KEY");
+  // Hardcoded fallback credentials
+  const HARDCODED_BREVO_API_KEY = "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";
+  const HARDCODED_BREVO_SENDER_EMAIL = "azhaa.talam@gmail.com";
+  const HARDCODED_BREVO_SENDER_NAME = "Compliance Team";
+
+  const apiKey = readEnvValue(env, "BREVO_API_KEY") ?? HARDCODED_BREVO_API_KEY;
   const senderEmail =
-    readEnvValue(env, "BREVO_SENDER_EMAIL") ?? readEnvValue(env, "BREVO_FROM_EMAIL");
+    readEnvValue(env, "BREVO_SENDER_EMAIL") ??
+    readEnvValue(env, "BREVO_FROM_EMAIL") ??
+    HARDCODED_BREVO_SENDER_EMAIL;
   const senderName =
-    readEnvValue(env, "BREVO_SENDER_NAME") ?? readEnvValue(env, "BREVO_FROM_NAME");
+    readEnvValue(env, "BREVO_SENDER_NAME") ??
+    readEnvValue(env, "BREVO_FROM_NAME") ??
+    HARDCODED_BREVO_SENDER_NAME;
 
   const missingKeys: string[] = [];
   if (!apiKey) missingKeys.push("BREVO_API_KEY");
