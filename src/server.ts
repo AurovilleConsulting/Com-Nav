@@ -39,25 +39,49 @@ function readGoogleSheetWebhookUrl(env: unknown): string | undefined {
 function readEnvValue(env: unknown, key: string): string | undefined {
   if (env && typeof env === "object") {
     const value = (env as Record<string, unknown>)[key];
-    if (typeof value === "string" && value) {
-      return value;
+    if (typeof value === "string" && value.trim()) {
+      return value.trim();
+    }
+
+    const envGetter = (env as { get?: (name: string) => unknown }).get;
+    if (typeof envGetter === "function") {
+      const getterValue = envGetter(key);
+      if (typeof getterValue === "string" && getterValue.trim()) {
+        return getterValue.trim();
+      }
     }
   }
 
   const processValue = globalThis.process?.env?.[key];
-  return typeof processValue === "string" && processValue ? processValue : undefined;
-}
-
-function readBrevoConfig(env: unknown): BrevoConfig | null {
-  const apiKey = readEnvValue(env, "BREVO_API_KEY");
-  const senderEmail = readEnvValue(env, "BREVO_SENDER_EMAIL");
-  const senderName = readEnvValue(env, "BREVO_SENDER_NAME");
-
-  if (!apiKey || !senderEmail || !senderName) {
-    return null;
+  if (typeof processValue === "string" && processValue.trim()) {
+    return processValue.trim();
   }
 
-  return { apiKey, senderEmail, senderName };
+  const metaEnv = (import.meta as { env?: Record<string, string | undefined> }).env;
+  const metaValue = metaEnv?.[key];
+  return typeof metaValue === "string" && metaValue.trim() ? metaValue.trim() : undefined;
+}
+
+function readBrevoConfig(env: unknown): { config: BrevoConfig | null; missingKeys: string[] } {
+  const apiKey = readEnvValue(env, "BREVO_API_KEY");
+  const senderEmail =
+    readEnvValue(env, "BREVO_SENDER_EMAIL") ?? readEnvValue(env, "BREVO_FROM_EMAIL");
+  const senderName =
+    readEnvValue(env, "BREVO_SENDER_NAME") ?? readEnvValue(env, "BREVO_FROM_NAME");
+
+  const missingKeys: string[] = [];
+  if (!apiKey) missingKeys.push("BREVO_API_KEY");
+  if (!senderEmail) missingKeys.push("BREVO_SENDER_EMAIL");
+  if (!senderName) missingKeys.push("BREVO_SENDER_NAME");
+
+  if (missingKeys.length > 0) {
+    return { config: null, missingKeys };
+  }
+
+  return {
+    config: { apiKey: apiKey!, senderEmail: senderEmail!, senderName: senderName! },
+    missingKeys: [],
+  };
 }
 
 async function handleComplianceSubmission(request: Request, env: unknown): Promise<Response> {
@@ -211,10 +235,13 @@ async function handleScorecardEmailSubmission(request: Request, env: unknown): P
     });
   }
 
-  const brevoConfig = readBrevoConfig(env);
+  const { config: brevoConfig, missingKeys } = readBrevoConfig(env);
   if (!brevoConfig) {
     return new Response(
-      JSON.stringify({ ok: false, message: "Brevo email configuration is missing" }),
+      JSON.stringify({
+        ok: false,
+        message: `Brevo email configuration is missing: ${missingKeys.join(", ")}`,
+      }),
       {
         status: 500,
         headers: { "content-type": "application/json" },
