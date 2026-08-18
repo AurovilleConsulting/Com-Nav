@@ -14,6 +14,7 @@ import type { LucideIcon } from "lucide-react";
 import { Link } from "@tanstack/react-router";
 import {
   COMPLIANCE_STORAGE_KEY,
+  clearStoredComplianceAndAssessments,
   getExposureOption,
   getStoredCompanyName,
   getStoredExposureCode,
@@ -352,9 +353,9 @@ const ComplianceChecker = () => {
     setResults(null);
     setErrors({});
     try {
-      localStorage.removeItem(COMPLIANCE_STORAGE_KEY);
+      clearStoredComplianceAndAssessments();
     } catch (error) {
-      console.warn("Failed to clear saved compliance profile", error);
+      console.warn("Failed to clear saved compliance and assessments", error);
     }
   };
   const fieldClass = (err?: string) =>

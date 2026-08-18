@@ -1,4 +1,14 @@
 export const COMPLIANCE_STORAGE_KEY = "eu-compliance-checker";
+const ASSESSMENT_STORAGE_KEYS = [
+  COMPLIANCE_STORAGE_KEY,
+  "dpp-assessment-v1",
+  "dr-assessment-v1",
+  "cbam-assessment-v1",
+  "compliance-assessment-v1",
+  "pending-dpp-scorecard-email",
+  "pending-eudr-scorecard-email",
+  "pending-cbam-scorecard-email",
+] as const;
 
 export const EXPOSURE_OPTIONS = [
   {
@@ -89,5 +99,18 @@ export function readStoredComplianceProfile(): StoredComplianceProfile {
     return JSON.parse(raw) as StoredComplianceProfile;
   } catch {
     return {};
+  }
+}
+
+export function clearStoredComplianceAndAssessments() {
+  if (typeof window === "undefined") return;
+
+  for (const key of ASSESSMENT_STORAGE_KEYS) {
+    try {
+      window.localStorage.removeItem(key);
+    } catch {}
+    try {
+      window.sessionStorage.removeItem(key);
+    } catch {}
   }
 }

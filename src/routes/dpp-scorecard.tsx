@@ -8,6 +8,7 @@ import { downloadElementAsPdf, generateElementPdfBase64 } from "@/components/che
 import { RadialGauge } from "@/components/RadialGauge";
 import { MicroTag } from "@/components/RiskPill";
 import { PdfHeader, PdfFooter } from "@/components/PdfFrame";
+import { ScorecardDisclaimer } from "@/components/ScorecardDisclaimer";
 import {
   getStoredCompanyName,
   getStoredExposureSummary,
@@ -41,7 +42,7 @@ function loadInitial(): Saved {
   if (cc.sector) sector = cc.sector as Sector;
   euExport = getStoredExposureSummary(cc);
   try {
-    const saved = JSON.parse(localStorage.getItem(DPP_KEY) || "{}");
+    const saved = JSON.parse(sessionStorage.getItem(DPP_KEY) || "{}");
     if (saved.org) org = saved.org;
     if (saved.sector) sector = saved.sector;
     if (saved.euExport) euExport = saved.euExport;
@@ -390,6 +391,7 @@ function Page() {
               );
             })}
           </div>
+          <ScorecardDisclaimer />
           <PdfFooter />
         </div>
 

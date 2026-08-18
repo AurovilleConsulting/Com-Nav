@@ -85,7 +85,7 @@ function loadInitial(): Saved {
   if (cc.sector) sector = cc.sector as Sector;
   euExport = getStoredExposureSummary(cc);
   try {
-    const saved = JSON.parse(localStorage.getItem(CBAM_KEY) || "{}");
+    const saved = JSON.parse(sessionStorage.getItem(CBAM_KEY) || "{}");
     if (saved.org) org = saved.org;
     if (saved.sector) sector = saved.sector;
     if (saved.euExport) euExport = saved.euExport;
@@ -115,7 +115,7 @@ export default function CBAMChecker() {
 
   useEffect(() => {
     try {
-      localStorage.setItem(CBAM_KEY, JSON.stringify({ org, sector, euExport, answers }));
+      sessionStorage.setItem(CBAM_KEY, JSON.stringify({ org, sector, euExport, answers }));
     } catch (error) {
       console.warn("Failed to save CBAM assessment", error);
     }

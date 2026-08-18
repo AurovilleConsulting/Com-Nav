@@ -35,7 +35,7 @@ function loadInitial(): Saved {
   if (cc.sector) sector = cc.sector as Sector;
   euExport = getStoredExposureSummary(cc);
   try {
-    const saved = JSON.parse(localStorage.getItem(DPP_KEY) || "{}");
+    const saved = JSON.parse(sessionStorage.getItem(DPP_KEY) || "{}");
     if (saved.org) org = saved.org;
     if (saved.sector) sector = saved.sector;
     if (saved.euExport) euExport = saved.euExport;
@@ -58,7 +58,7 @@ export default function DPPChecker() {
 
   useEffect(() => {
     try {
-      localStorage.setItem(DPP_KEY, JSON.stringify({ org, sector, euExport, answers }));
+      sessionStorage.setItem(DPP_KEY, JSON.stringify({ org, sector, euExport, answers }));
     } catch (error) {
       console.warn("Failed to save DPP assessment", error);
     }

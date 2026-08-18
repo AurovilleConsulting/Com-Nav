@@ -1,5 +1,6 @@
 import { jsPDF } from "jspdf";
 
+import { SCORECARD_DISCLAIMER } from "@/components/ScorecardDisclaimer";
 import type {
   ScorecardOverallMetric,
   ScorecardPdfContent,
@@ -190,6 +191,13 @@ function buildScorecardPdf(content: ScorecardPdfContent): jsPDF {
     writeSectionHeading("Conclusion");
     writeWrappedText(content.conclusion, { size: 10.5, lineHeight: 5.5 });
   }
+
+  cursorY += 6;
+  writeWrappedText(SCORECARD_DISCLAIMER, {
+    size: 9,
+    color: [71, 85, 105],
+    lineHeight: 4.5,
+  });
 
   return doc;
 }

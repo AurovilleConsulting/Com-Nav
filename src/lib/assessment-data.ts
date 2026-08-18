@@ -123,12 +123,12 @@ export const DPP_QUESTIONS: DppQuestion[] = [
   { id: "A3", section: "A", text: "Do you maintain records on product origin, manufacturing location, and supplier details?" },
   { id: "A4", section: "A", text: "Do you regularly update product documentation when specifications or suppliers change?" },
   { id: "B1", section: "B", text: "Do you store product and compliance data in a digital system rather than only in paper or scattered files?" },
-  { id: "B2", section: "B", text: "Can your organisation link product data to batch numbers, SKUs, QR codes, or other digital identifiers?" },
-  { id: "B3", section: "B", text: "Can product information be shared digitally with buyers, auditors, or regulators when required?" },
+  { id: "B2", section: "B", text: "Do you link product data to batch numbers SKUs, QR codes or other digital identifiers?" },
+  { id: "B3", section: "B", text: "Do you have the systems in place to share information digitally with buyers, auditors or regulators when required?" },
   { id: "B4", section: "B", text: "Do you have internal systems or processes to control access, versioning, and quality of product data?" },
-  { id: "C1", section: "C", text: "Can you collect relevant product information from key suppliers in your supply chain?" },
+  { id: "C1", section: "C", text: "Do you collect product information from key suppliers in your supply chain?" },
   { id: "C2", section: "C", text: "Do you ask suppliers for sustainability, material, or compliance-related data?" },
-  { id: "C3", section: "C", text: "Can you trace key inputs, materials, or components back to supplier or source level?" },
+  { id: "C3", section: "C", text: "Do you have the systems in place to be able to trace key inputs, materials, or components back to supplier or source-level?" },
   { id: "C4", section: "C", text: "Do you have a process to verify or validate supplier-provided product information?" },
   { id: "D1", section: "D", text: "Do you track sustainability indicators such as recycled content, energy use, emissions, durability, repairability, or end-of-life information?" },
   { id: "D2", section: "D", text: "Has someone in your organisation been assigned responsibility for product compliance, sustainability data, or DPP readiness?" },
@@ -163,20 +163,20 @@ export const CBAM_SECTIONS = {
 export interface CbamQuestion { id: string; text: string; section: keyof typeof CBAM_SECTIONS; }
 
 export const CBAM_QUESTIONS: CbamQuestion[] = [
-  { id: "A1", section: "A", text: "Do any of your products supplied to Europe fall under CBAM?" },
-  { id: "A2", section: "A", text: "Have any buyers or traders asked you for carbon or emissions information related to your products?" },
-  { id: "A3", section: "A", text: "Do you know that default EU emission values may be used if you do not provide actual data?" },
-  { id: "B1", section: "B", text: "Do you have basic factory data such as electricity use, fuel use, production volumes, and product details?" },
-  { id: "B2", section: "B", text: "Can you easily collect factory data from different records and departments?" },
-  { id: "B3", section: "B", text: "Can you obtain data from key suppliers for CBAM-relevant inputs used in your products?" },
-  { id: "C1", section: "C", text: "Do you calculate emissions for your factory or products using a recognised method, for example, GHG Protocol or CBAM?" },
-  { id: "C2", section: "C", text: "Are your emissions calculation methods, data sources, and key assumptions written down or documented?" },
-  { id: "C3", section: "C", text: "Can you calculate emissions at product or installation level for the goods you supply to Europe?" },
-  { id: "D1", section: "D", text: "Has someone in your company been assigned to handle CBAM or carbon work?" },
+  { id: "A1", section: "A", text: "Do you know which products are currently covered under CBAM, and which ones might be included in its scope down the line?" },
+  { id: "A2", section: "A", text: "Are you aware that CBAM certificates have a price linked to the embedded CO₂e emissions of the exported goods?" },
+  { id: "A3", section: "A", text: "Are you aware that CBAM may use default emission values if actual emissions data are not provided?" },
+  { id: "B1", section: "B", text: "Do you collect and maintain factory-related data across all departments?" },
+  { id: "B2", section: "B", text: "Do you have a system in place to regularly collect basic factory data, such as electricity consumption, fuel consumption, production volumes, and product details?" },
+  { id: "B3", section: "B", text: "Do you have a system in place to collect the required data from key suppliers for your emissions inventory and CBAM reporting?" },
+  { id: "C1", section: "C", text: "Do you currently calculate emissions for your products using a recognised methodology, such as the GHG Protocol or CBAM methodology? " },
+  { id: "C2", section: "C", text: "Do you maintain documentation of the emissions calculation methods, data sources, and key assumptions used?" },
+  { id: "C3", section: "C", text: "Is there an established system to calculate emissions at the product or installation level for the goods you export?" },
+  { id: "D1", section: "D", text: "Is there a designated person responsible for emissions-related accounting within your company?" },
   { id: "D2", section: "D", text: "Have relevant staff received basic training on CBAM, carbon accounting, or emissions reporting?" },
-  { id: "D3", section: "D", text: "Do you have a regular process to review and update CBAM-related data and calculations?" },
-  { id: "E1", section: "E", text: "Is your EU buyer, importer, or trader working with you on CBAM data needs?" },
-  { id: "E2", section: "E", text: "Do you ask your suppliers for data needed to calculate emissions for CBAM?" },
+  { id: "D3", section: "D", text: "Is there a process in place to regularly review and update emissions-related or CBAM-related data and calculations?" },
+  { id: "E1", section: "E", text: "Have you discussed CBAM requirements and emissions data needs with your buyers outside India?" },
+  { id: "E2", section: "E", text: "Have you approached your suppliers for data needed to calculate emissions for CBAM?" },
   { id: "E3", section: "E", text: "Have you planned or considered third-party verification of your emissions data?" },
 ];
 
@@ -212,8 +212,8 @@ export const EUDR_STEPS = [
 ];
 
 export const EUDR_QUESTIONS: EudrQuestion[] = [
-  { id: "1", step: 1, text: "Have you checked whether your commodity falls under specific HS codes listed under EUDR Annex I?", gapMessage: "In-scope products not identified" },
-  { id: "2", step: 1, text: "Have you assessed the proportion of your total exports that go to EU countries?", gapMessage: "EU export exposure not assessed" },
+  { id: "1", step: 1, text: "Do you know which commodities currently fall under EUDR's scope, as identified by specific HS codes listed under Annex I, and that additional commodities may be added over time?", gapMessage: "In-scope products not identified" },
+  { id: "2", step: 1, text: "Do you document the domestic vs. export split of your total commodities, and the specific markets each portion goes to?", gapMessage: "Export exposure not documented" },
   { id: "3", step: 1, text: "Have you identified all product lines (finished goods, semi-processed) that contain or are derived from EUDR commodities?", gapMessage: "Product lines containing EUDR commodities not mapped" },
   { id: "4", step: 2, text: "Do you know the number of individual farm plots contributing to each export batch?", gapMessage: "Farm-plot-to-batch traceability missing" },
   { id: "5", step: 2, text: "Have you assigned unique Batch IDs to procurement from specific farm sources?", gapMessage: "No unique Batch IDs for procurement" },
@@ -302,8 +302,8 @@ export const DR_SECTIONS = {
 export interface DrQuestion { id: string; text: string; section: keyof typeof DR_SECTIONS; }
 
 export const DR_QUESTIONS: DrQuestion[] = [
-  { id: "A1", section: "A", text: "Have you checked whether your commodity falls under specific HS codes listed under EUDR Annex I?" },
-  { id: "A2", section: "A", text: "Have you assessed the proportion of your total exports that go to EU countries?" },
+  { id: "A1", section: "A", text: "Do you know which commodities currently fall under EUDR's scope, as identified by specific HS codes listed under Annex I, and that additional commodities may be added over time?" },
+  { id: "A2", section: "A", text: "Do you document the domestic vs. export split of your total commodities, and the specific markets each portion goes to?" },
   { id: "A3", section: "A", text: "Have you identified all product lines (finished goods, semi-processed) that contain or are derived from EUDR commodities?" },
   { id: "B1", section: "B", text: "Do you know the number of individual farm plots contributing to each export batch?" },
   { id: "B2", section: "B", text: "Have you assigned unique Batch IDs to procurement from specific farm sources?" },
